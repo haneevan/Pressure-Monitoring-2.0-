@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圧力履歴</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- use a specific Chart.js release; the generic path occasionally returns 404 on some networks -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <!-- flatpickr for date pickers -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- plugins must be loaded after Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+    <!--
+      If your Pi cannot reach the jsdelivr CDN, you can download the
+      needed files and serve them from /static (e.g. static/chart.min.js).
+      Uncomment the lines below and remove the CDN versions.
+    -->
+    <!--
+    <script src="{{ url_for('static', filename='chart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='chartjs-plugin-annotation.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='chartjs-plugin-zoom.min.js') }}"></script>
+    -->
+</head>
+<body>
+    <header class="dashboard-header">
+        <h1>圧力履歴</h1>
+        <div class="header-controls">
+            <!--notification-->
+            <div class="notification-container">
+            <button class="notification-icon" id="notificationButton"><i class="fas fa-bell"></i>
+            <span class="badge" id="notificationBadge">0</span>
+            </button>
+            <div class="notification-menu" id="notificationMenu">
+                <h4>お知らせ</h4>
+                <ul>
+                </ul>
+            </div>
+            </div> 
+            <!---->
+            <a href="/" class="history-link"><i class="fas fa-home"></i>メインページ</a>
+            <a href="/logs" class="history-link"><i class="fas fa-terminal"></i>ログ確認</a>
+            <div class="datetime-display">
+                <div id="current-date">Loading...</div>
+                <div id="current-time">Loading...</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="log-container" style="grid-template-columns: 1fr; justify-items: center;">
+        <div class="controls" style="margin-bottom: 1.5rem; text-align: center; display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
+            <label for="start-date-picker" style="margin-right: 0.5rem;"><b>開始日:</b></label>
+            <input type="text" id="start-date-picker" class="date-picker" placeholder="開始日を選択">
+            
+            <label for="end-date-picker" style="margin-left: 1rem; margin-right: 0.5rem;"><b>終了日:</b></label>
+            <input type="text" id="end-date-picker" class="date-picker" placeholder="終了日を選択">
+            <!-- new load button -->
+            <button id="load-range" style="margin-left: 1rem;">表示</button>
+            <button id="reset-zoom" style="margin-left: 1.5rem;">ズームリセット</button>
+            <button id="download-csv" style="margin-left: 1rem;">CSVダウンロード</button>
+        </div>
+        <div class="graph-card" style="width: 80vw; max-width: 80%; height: 50vh;">
+            <h2>圧力履歴グラフ</h2>
+            <canvas id="pressure-history-graph"></canvas>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='history.js') }}"></script>    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

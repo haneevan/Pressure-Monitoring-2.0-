@@ -1,0 +1,581 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+/* Base styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Add this at the top after the @import */
+:root {
+    --color-bg-dark: #2c3e50;
+}
+
+/* Header styles */
+.dashboard-header {
+    width: 100%;
+    height: 50px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+/* Header controls and history link */
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.history-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 15px;
+    background-color: #2c3e50; /* Fallback color */
+    background-color: var(--color-bg-dark);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.history-link i {
+    margin-right: 8px;
+}
+
+.history-link:hover {
+    background-color: #34495e;
+    text-decoration: none;
+}
+
+
+/* Main container */
+#main-container {
+    width: 98%;
+    margin: 60px auto 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: calc(100vh - 70px);
+}
+
+#sub-container {
+    width: 98%;
+    margin: 60px auto 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: calc(100vh - 70px);
+}
+
+/* Card pairs */
+.card-pair {
+    text-align: center;
+    display: flex;
+    gap: 10px;
+    height: calc(50vh - 65px); /* Changed to viewport height based */
+    min-height: 200px; /* Reduced minimum height */
+}
+
+/* Data group */
+.data-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: calc(10vh - 50px);
+    width: 250px; /* Increased width slightly */
+    min-width: 200px;
+}
+
+/* Data cards */
+.data-card {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex: 1;
+}
+
+/* Graph cards */
+.graph-card {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex-grow: 1;
+    min-width: 0;
+    height: 90%; /* Ensure full height */
+}
+
+/* Typography */
+h1 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+h2 {
+    font-size: 0.9rem;
+    margin: 0 0 10px 0;
+    color: #666;
+}
+
+.pressure-value {
+    
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #00c853; /* Green color */
+}
+
+.unit {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* Date time display */
+.datetime-display {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Canvas */
+canvas {
+    width: 100% !important;
+    height: 100% !important; /* Changed to full height */
+    max-height: calc(100% - 20px); /* Add max-height */
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+}
+
+#pressureAlarmModal{
+    background: rgba(248,97,132,0.7);
+}
+
+#idleSystemModal{
+    background: rgba(0,0,0,0.5);
+}
+
+.modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+}
+
+#modal-idle {
+    background: white;
+    }
+#modal-alarm {
+    background: yellow;
+    }
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Add this if you want to use Font Awesome icons */
+.fas {
+    margin-right: 8px;
+}
+
+/* Add to your existing modal styles */
+.modal-content.warning {
+    border-left: 5px solid #f0ad4e;
+    background-color: #fcf8e3;
+}
+
+/* Container for the log cards */
+.log-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+    margin-top: 60px;
+}
+
+/* Card style for each sensor log */
+.log-card {
+    background: #fff;
+    border-radius: 25px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    padding: 2rem 1.5rem;
+    min-width: 350px;
+    max-width: 400px;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.log-card h2 {
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    color: #2c3e50;
+}
+
+.log-list {
+    width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.log-entry {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3rem 0.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 1rem;
+    color: #34495e;
+}
+
+.log-timestamp {
+    color: #888;
+    margin-right: 1rem;
+    font-size: 0.95em;
+}
+
+.log-value {
+    font-weight: bold;
+    color: #0077cc;
+}
+
+.error-log {
+    background-color: #fff3f3;
+    border-left: 4px solid #ff4444;
+}
+
+.error-list .log-entry {
+    color: #cc0000;
+    border-bottom: 1px solid #ffcccc;
+}
+
+.error-value {
+    color: #ff4444;
+    font-weight: bold;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+    .card-pair {
+        height: calc(50vh - 40px);
+    }
+    
+    .data-group {
+        width: 220px;
+    }
+}
+
+@media (max-height: 800px) {
+    .card-pair {
+        height: calc(50vh - 35px);
+        min-height: 180px;
+    }
+    
+    .data-card {
+        padding: 10px;
+    }
+    
+    .pressure-value {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 900px) {
+    #main-container {
+        height: auto;
+        min-height: calc(100vh - 70px);
+    }
+    
+    .card-pair {
+        flex-direction: column;
+        height: auto;
+        min-height: 400px;
+        margin-bottom: 15px;
+    }
+    
+    .data-group {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        height: auto;
+    }
+    
+    .data-card {
+        flex: 1;
+        min-width: 180px;
+    }
+    
+    .graph-card {
+        height: 250px;
+    }
+}
+
+@media (max-height: 600px) {
+    .card-pair {
+        min-height: 150px;
+    }
+    
+    h2 {
+        font-size: 0.8rem;
+        margin-bottom: 5px;
+    }
+    
+    .pressure-value {
+        font-size: 1.2rem;
+    }
+}
+
+.notification-container {
+  position: relative; /* Essential for positioning the menu relative to the icon */
+  display: inline-block;
+}
+
+/* Style the notification icon/button */
+.notification-icon {
+  background-color: #555;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  border-radius: 5px;
+}
+
+/* Style the notification badge (the number) */
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  padding: 5px 8px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+  font-size: 12px;
+}
+
+/* Style the dropdown menu */
+.notification-menu {
+  display: none; /* Hidden by default */
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Style menu items */
+.notification-menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-menu li {
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Class to show the menu (toggled by JavaScript) */
+.notification-menu.show {
+  display: block;
+}
+
+/* Notification item styles */
+.notification-item {
+  padding: 10px 8px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+.notification-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  text-align: left;
+}
+
+.notification-time {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.notification-message {
+  font-weight: 600;
+  color: #333;
+}
+
+.notification-details {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.notification-item.notification-alarm {
+  background-color: #fff3f0;
+  border-left: 3px solid #ff4444;
+}
+
+.notification-item.notification-alarm .notification-message {
+  color: #ff4444;
+}
+
+.notification-item.notification-idle {
+  background-color: #f0f7ff;
+  border-left: 3px solid #3498db;
+}
+
+.notification-item.notification-idle .notification-message {
+  color: #3498db;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.notification-close:hover {
+  color: #333;
+}
+
+/* Notification read/unread states */
+.notification-item.notification-unread {
+  background-color: #f0f7ff;
+  font-weight: 500;
+  opacity: 1;
+}
+
+.notification-item.notification-unread.notification-alarm {
+  background-color: #fff5f0;
+}
+
+.notification-item.notification-read {
+  opacity: 0.7;
+  background-color: #fafafa;
+}
+
+.notification-item.notification-read .notification-message {
+  color: #999;
+}
+
+.notification-item.notification-read .notification-details {
+  color: #bbb;
+}
+
+/* Badge styling */
+#notificationBadge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  padding: 4px 7px;
+  border-radius: 50%;
+  background: #ff4444;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  min-width: 20px;
+  text-align: center;
+  display: none;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Carousel Styles */
+.carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 100; /* Add this to keep buttons on top */
+}
+
+
+.carousel-button.prev {
+  left: 10px;
+}
+
+.carousel-button.next {
+  right: 10px;
+}
+
+[data-slides] {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+}
+
+.slide {
+  min-width: 100%;
+  box-sizing: border-box;
+}

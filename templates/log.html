@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ログ確認</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="dashboard-header">
+        <h1>ログ確認</h1>
+        <div class="header-controls">
+            <!--notification-->
+            <div class="notification-container">
+            <button class="notification-icon" id="notificationButton"><i class="fas fa-bell"></i>
+            <span class="badge" id="notificationBadge">0</span>
+            </button>
+            <div class="notification-menu" id="notificationMenu">
+                <h4>お知らせ</h4>
+                <ul>
+                </ul>
+            </div>
+            </div> 
+            <!---->
+            <a href="/?start=dashboard" class="history-link"><i class="fas fa-home"></i>メインページ</a>
+            <a href="/history" class="history-link"><i class="fas fa-history"></i>履歴</a>
+            <div class="datetime-display">
+                <div id="current-date">Loading...</div>
+                <div id="current-time">Loading...</div>
+            </div>
+        </div>
+    </header>
+
+<div class="log-container">
+    <div class="log-card">
+        <h2>F側センサーログ</h2>
+        <ul id="front-log-list" class="log-list">
+            <!-- Log entries will be added here by JavaScript -->
+            <li class="log-entry">ログデータの読み込み</li>
+        </ul>
+    </div>
+    <div class="log-card">
+        <h2>R側センサーログ</h2>
+        <ul id="rear-log-list" class="log-list">
+            <!-- Log entries will be added here by JavaScript -->
+            <li class="log-entry">ログデータの読み込み</li>
+        </ul>
+    </div>
+    <div class="log-card error-log">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>エラーログ</h2>
+        </div>
+        <!--<button id="clear-error-log" style="padding: 0.5rem 1rem; background-color: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">クリア</button>-->
+        <ul id="error-log-list" class="log-list error-list">
+            <!-- Error log entries will be added here by JavaScript -->
+            <li class="log-entry">ログデータの読み込み</li>
+        </ul>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='log.js') }}"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

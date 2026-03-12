@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>65Dスリットエア監視</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+</head>
+<body>
+    <header class="dashboard-header">
+        <h1>豊田工場65Dスリットエア監視</h1>
+        <div class="header-controls">
+            <!--notification-->
+            <div class="notification-container">
+            <button class="notification-icon" id="notificationButton"><i class="fas fa-bell"></i>
+            <span class="badge" id="notificationBadge">0</span>
+            </button>
+            <div class="notification-menu" id="notificationMenu">
+                <h4>お知らせ</h4>
+                <ul>
+                </ul>
+            </div>
+            </div> 
+            <!---->
+            <a href="/logs" class="history-link"><i class="fas fa-terminal"></i>ログ確認</a>
+            <a href="/history" class="history-link"><i class="fas fa-history"></i>履歴</a>
+            <div class="datetime-display">
+                <div id="current-date">Loading...</div>
+                <div id="current-time">Loading...</div>
+            </div>
+        </div>
+    </header>
+    
+    <!--carousel wrap-->
+<div class="carousel" data-carousel>
+<button class="carousel-button prev" data-carousel-button="prev">&#10094;</button>
+<button class="carousel-button next" data-carousel-button="next">&#10095;</button>
+<div data-slides>
+  <div class="slide" data-active> <!--slide 1-->  
+  <div id="main-container">
+        <!--Main Slide [1]-->
+        <!-- Front Sensors and Graph -->
+        <div class="card-pair">
+            <div class="data-group">
+                <div class="data-card">
+                    <h2>F側 元圧</h2>
+                    <p><span id="front-pressure-value" class="pressure-value">...</span> <span class="unit">MPa</span></p>
+                    <!--<p class="timestamp">Last Updated: <span id="front-last-updated">...</span></p>-->
+                </div>
+                <div class="data-card">
+                    <h2>F側過去一分平均値</h2>
+                    <p><span id="front-averageM-value" class="pressure-value">...</span> <span class="unit">MPa</span></p>
+                </div>
+                <div class="data-card">
+                    <h2>F側過去10分平均値</h2>
+                    <p><span id="front-average-value" class="pressure-value">...</span> <span class="unit">MPa</span></p>
+                </div>
+            </div>
+            <div id="front-graph-card" class="graph-card">
+                <h2>F側センサーグラフ</h2>
+                <canvas id="front-pressure-chart"></canvas>
+            </div>
+        </div>
+
+        <!-- Rear Sensors and Graph -->
+        <div class="card-pair">
+            <div class="data-group">
+                <div class="data-card">
+                    <h2>R側 元圧</h2>
+                    <p><span id="rear-pressure-value" class="pressure-value">...</span> <span class="unit">MPa</span></p>
+                    <!--<p class="timestamp">Last Updated: <span id="rear-last-updated">...</span></p>-->
+                </div>
+                <div class="data-card">
+                    <h2>R側 過去一分平均値</h2>
+                    <p><span id="rear-averageM-value" class="pressure-value">...</span> <span class="unit">MPa</span></p>
+                </div>
+                <div class="data-card">
+                    <h2>R側 過去10分平均値</h2>
+                    <p><span id="rear-average-value" class="pressure-value">...</span> <span class="unit">MPa</span></p>
+                </div>
+            </div>
+            <div id="rear-graph-card" class="graph-card">
+                <h2>R側センサーグラフ</h2>
+                <canvas id="rear-pressure-chart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    <div class="slide"> <div id="sub-container">
+        <div class="card-pair">
+            <div class="data-group">
+                <div class="data-card">
+                    <h2>気温</h2>
+                    <p><span id="temp-value" class="pressure-value">...</span> <span class="unit">°C</span></p>
+                </div> 
+            </div>
+            <div id="temp-graph-card" class="graph-card">
+                <h2>気温グラフ(°C) 一分毎</h2>
+                <canvas id="temp-chart"></canvas>
+            </div>
+        </div>
+
+        <div class="card-pair">
+            <div class="data-group">
+                <div class="data-card">
+                    <h2>気圧</h2>
+                    <p><span id="atm-pressure-value" class="pressure-value">...</span> <span class="unit">hPa</span></p>
+                </div> 
+            </div>
+            <div id="atm-graph-card" class="graph-card">
+                <h2>気圧グラフ(hPa) 一分毎</h2>
+                <canvas id="atm-chart"></canvas>
+            </div>
+        </div>
+
+        <div class="card-pair">
+            <div class="data-group">
+                <div class="data-card">
+                    <h2>湿度</h2>
+                    <p><span id="humidity-value" class="pressure-value">...</span> <span class="unit">%RH</span></p>
+                </div> 
+            </div>
+            <div id="humidity-graph-card" class="graph-card">
+                <h2>湿度グラフ(%RH) 一分毎</h2>
+                <canvas id="humidity-chart"></canvas>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+</div>    
+    
+
+    <!-- Link to the external JavaScript file -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <!-- Add before closing body tag -->
+<div id="pressureAlarmModal" class="modal hidden">
+    <div class="modal-content" id="modal-alarm">
+        <div class="modal-header">
+            <h2 style="color: #ff0000; font-weight: bold;">警告: 空気圧低下</h2>
+            <button onclick="closeModal('pressureAlarmModal')" class="close-button">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>圧力低下異常です。生産を中断し、保全者または技術者へ連絡して下さい。</p>
+            <div id="alarm-details">
+                <p>発生時刻: <span id="alarm-timestamp" class="alarm-timestamp">--:--:--</span></p>
+                <p style="color: #ff0000; font-weight: bold;">F側センサー: <span id="alarm-front-pressure" class="alarm-value">-.--- MPa</span></p>
+                <p style="color: #ff0000; font-weight: bold;">R側センサー: <span id="alarm-rear-pressure" class="alarm-value">-.--- MPa</span></p>
+            </div>
+            <p></p>
+            <p></p>
+        </div>
+    </div>
+</div>
+
+<div id="idleSystemModal" class="modal hidden">
+    <div class="modal-content" id="modal-idle">
+        <div class="modal-header">
+            <h2 style="color: #3498db; font-weight: bold;">通知: システム待機中</h2>
+            <button onclick="closeModal('idleSystemModal')" class="close-button">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>システムが待機状態です。一次側エア圧力とプレス機の電源を確認して下さい。</p>
+            <div id="idle-details">
+                <p>確認時刻: <span id="idle-timestamp" class="idle-timestamp">--:--:--</span></p>
+                <p>F側センサー: <span id="idle-front-pressure" class="idle-value">-.--- MPa</span></p>
+                <p>R側センサー: <span id="idle-rear-pressure" class="idle-value">-.--- MPa</span></p>
+            </div>
+            <p></p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
